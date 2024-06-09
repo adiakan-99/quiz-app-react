@@ -1,23 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import { createContext, useState } from "react";
+import Homepage from "./components/Homepage";
+import Question from "./components/Question";
+import Result from "./components/Result";
+import Timer from "./components/Timer";
+
+export const myBasket = createContext()
 
 function App() {
+  const [gameStage, setGameStage] = useState("home");
+
+  const [score, setScore] = useState(0);
+
+  const [selectedAnswers, setSelectedAnswers] = useState([]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <myBasket.Provider value={{ stage: setGameStage, myScore: score, setMyScore: setScore, selectedAnswers, setSelectedAnswers }}>
+        {gameStage === "home" && <Homepage />}
+        {gameStage === "question" && <Question><Timer /></Question>}
+        {gameStage === "result" && <Result />}
+      </myBasket.Provider>
     </div>
   );
 }
